@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Haat - Online Shop</title>
+  <meta name="description" content="Haat is a responsive e-commerce demo built with HTML, CSS and JavaScript: product filters, search, live cart and billing.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#products">Skip to products</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#top" aria-label="Haat home">Haat</a>
+      <form class="search" role="search" id="searchForm">
+        <label class="visually-hidden" for="searchInput">Search products</label>
+        <input id="searchInput" type="search" placeholder="Search headphones, kurta, books..." autocomplete="off">
+      </form>
+      <button class="cart-btn" id="openCart" type="button" aria-label="Open cart">
+        Cart <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-inner">
+        <h1>Everything for the week, one cart.</h1>
+        <p>Free delivery on orders above ₹999. Use <strong>SAVE10</strong> for 10% off at checkout.</p>
+      </div>
+    </section>
+
+    <section class="shop" id="products">
+      <div class="toolbar">
+        <div class="chips" id="categoryChips" role="group" aria-label="Filter by category"></div>
+        <label class="sort">
+          <span>Sort by</span>
+          <select id="sortSelect">
+            <option value="featured">Featured</option>
+            <option value="price-asc">Price: low to high</option>
+            <option value="price-desc">Price: high to low</option>
+            <option value="rating">Top rated</option>
+          </select>
+        </label>
+      </div>
+      <p class="result-count" id="resultCount" aria-live="polite"></p>
+      <div class="grid" id="productGrid"></div>
+      <div class="empty" id="emptyState" hidden>
+        <p><strong>No products match your search.</strong></p>
+        <p>Clear the search box or choose another category.</p>
+        <button type="button" class="btn btn-secondary" id="resetFilters">Reset filters</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Haat is a practice project built with HTML, CSS and JavaScript. No real orders are placed and no payment is taken.</p>
+  </footer>
+
+  <!-- Cart drawer -->
+  <div class="overlay" id="overlay" hidden></div>
+  <aside class="drawer" id="cartDrawer" aria-label="Shopping cart" aria-hidden="true">
+    <div class="drawer-head">
+      <h2>Your cart</h2>
+      <button type="button" class="icon-btn" id="closeCart" aria-label="Close cart">Close</button>
+    </div>
+
+    <div class="drawer-body" id="cartBody"></div>
+
+    <div class="drawer-foot" id="cartFoot">
+      <form class="coupon" id="couponForm">
+        <label class="visually-hidden" for="couponInput">Coupon code</label>
+        <input id="couponInput" type="text" placeholder="Coupon code" autocomplete="off">
+        <button type="submit" class="btn btn-secondary">Apply</button>
+      </form>
+      <p class="coupon-msg" id="couponMsg" aria-live="polite"></p>
+
+      <dl class="bill" id="billBox"></dl>
+
+      <button type="button" class="btn btn-primary btn-block" id="checkoutBtn">Proceed to checkout</button>
+    </div>
+  </aside>
+
+  <!-- Checkout modal -->
+  <div class="modal" id="checkoutModal" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle" hidden>
+    <div class="modal-card">
+      <h2 id="checkoutTitle">Delivery and payment</h2>
+      <form id="checkoutForm" novalidate>
+        <div class="field">
+          <label for="fName">Full name</label>
+          <input id="fName" name="name" type="text" autocomplete="name" required>
+          <small class="error" data-error-for="fName"></small>
+        </div>
+        <div class="field">
+          <label for="fPhone">Mobile number</label>
+          <input id="fPhone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="10-digit number" required>
+          <small class="error" data-error-for="fPhone"></small>
+        </div>
+        <div class="field">
+          <label for="fAddress">Delivery address</label>
+          <textarea id="fAddress" name="address" rows="3" autocomplete="street-address" required></textarea>
+          <small class="error" data-error-for="fAddress"></small>
+        </div>
+        <fieldset class="field pay">
+          <legend>Payment method</legend>
+          <label><input type="radio" name="payment" value="UPI" checked> UPI</label>
+          <label><input type="radio" name="payment" value="Card"> Card</label>
+          <label><input type="radio" name="payment" value="Cash on delivery"> Cash on delivery</label>
+        </fieldset>
+        <p class="modal-total">Amount to pay: <strong id="modalTotal"></strong></p>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="cancelCheckout">Back to cart</button>
+          <button type="submit" class="btn btn-primary">Place order</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Order confirmation -->
+  <div class="modal" id="successModal" role="dialog" aria-modal="true" aria-labelledby="successTitle" hidden>
+    <div class="modal-card">
+      <h2 id="successTitle">Order placed</h2>
+      <p id="successText"></p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-primary" id="closeSuccess">Continue shopping</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
